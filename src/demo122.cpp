@@ -13,6 +13,21 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
+        // 0 表示不持有股票，1表示持有一支股票
+        vector<vector<int>> dp(n, vector<int>(2, 0));
+        dp[0][1] = -prices[0];
+        for (int i = 1; i < prices.size(); i++)
+        {
+            // 第i天不持有股票 = 第i-1天不持有股票，第i天不动 或 第i-1天持有股票，第i天吧股票卖了
+            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            // 第i天持有股票 = 第i-1天不持有股票，第i买入股票 或 第i-1天持有股票，第i天不动
+            dp[i][1] = max(dp[i - 1][0] - prices[i], dp[i - 1][1]);
+        }
+        return dp[n - 1][0];
+    }
+/*
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
         // dp:前i天不持有股票，持有股票的最大利润
         vector<vector<int>> dp(n, vector<int>(2, 0));
         dp[0][0] = 0;
@@ -23,7 +38,7 @@ public:
             dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
         }
         return dp[n - 1][0];
-    }
+    }*/
     /*
         int maxProfit(vector<int>& prices) {
             int max_sum = 0, min_profit = INT_MAX;

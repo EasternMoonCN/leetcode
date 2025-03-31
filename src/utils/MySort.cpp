@@ -67,6 +67,7 @@ void MySort::quickSort(vector<int> &nums, int left, int right) {
     if (left >= right) {
         return;
     }
+    // base排好序了
     int base = partition(nums, left, right);
     quickSort(nums, left, base - 1);
     quickSort(nums, base + 1, right);

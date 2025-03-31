@@ -5,12 +5,13 @@
 
 template<typename T>
 void common<T>::printData(T data) {
-    cout << data << endl;
+    cout << data << " ";
 }
 
 template<typename T>
 void common<T>::printVector(vector<T> result) {
     for_each(result.begin(), result.end(), printData);
+    cout << endl;
 }
 
 template<typename T>

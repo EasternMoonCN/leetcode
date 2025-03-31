@@ -7,10 +7,10 @@
 class Solution
 {
 public:
-    // 对于i, j，存在i_left_max, i_right_max, j_left_max,j_right_max;
+    // 对于i, j，存在i_left_max, i_right_max, j_left_max, j_right_max;
     // i < j, 由 i_left_max <= j_left_max, i_right_max >= j_right_max;
     // 若 i_left_max > j_right_max , 则 j_left_max > j_right_max，则j点可接水
-    // 若 i_left_max < j_rgiht_max , 则 i_left_max < i_right_max, 则i点可接水
+    // 若 i_left_max < j_right_max , 则 i_left_max < i_right_max, 则i点可接水
     int trap(vector<int> &height)
     {
         int n = height.size(), res = 0;

@@ -14,6 +14,7 @@ public:
     }
 
     void backtrack(int index, vector<int> nums, vector<vector<int> >& results) {
+        // 前面 n - 1位是固定的，后面第n位拍不排序无所谓
         if (index == nums.size()) {
             results.push_back(nums);
             return;

@@ -6,7 +6,7 @@ public:
     vector<double> calcEquation(vector<vector<string>> &equations, vector<double> &values, vector<vector<string>> &queries)
     {
         int nvars = 0;
-        unordered_map<string, int> variables;
+        unordered_map<string, int> variables;   // 图的各个顶点 和 坐标
 
         int n = equations.size();
         for (int i = 0; i < n; i++)
@@ -31,40 +31,51 @@ public:
         }
 
         vector<double> ret;
+        // 遍历每一个问题
         for (const auto &q : queries)
         {
             double result = -1.0;
+            // 判断所求问题节点是否存在
             if (variables.find(q[0]) != variables.end() && variables.find(q[1]) != variables.end())
             {
+                // 所求问题索引
                 int ia = variables[q[0]], ib = variables[q[1]];
+                // 所求问题索引节点相同，直接为0
                 if (ia == ib)
                 {
                     result = 1.0;
                 }
+                // 寻找ia到ib到路径
                 else
                 {
+                    // 保存当前节点可以遍历到到节点
                     queue<int> points;
                     points.push(ia);
+                    // 初始化路径
                     vector<double> ratios(nvars, -1.0);
                     ratios[ia] = 1.0;
-
+                    // 还存在节点为遍历 且 未到达终点
                     while (!points.empty() && ratios[ib] < 0)
                     {
                         int x = points.front();
                         points.pop();
-
-                        for (const auto [y, val] : edges[x])
+                        // 遍历当前节点x可以遍历到到到节点
+                        for (pair<int, double> edge : edges[x])
                         {
-                            if (ratios[y] < 0)
+                            // 如果没有遍历过，记录遍历
+                            if (ratios[edge.first] < 0)
                             {
-                                ratios[y] = ratios[x] * val;
-                                points.push(y);
+                                // 遍历到到节点权重 = 上一个节点 * 边到权重
+                                ratios[edge.first] = ratios[x] * edge.second;
+                                // 将遍历到到节点加入待遍历中
+                                points.push(edge.first);
                             }
                         }
                     }
                     result = ratios[ib];
                 }
             }
+            // 保存最中节点
             ret.push_back(result);
         }
         return ret;
