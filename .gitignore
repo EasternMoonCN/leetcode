@@ -2,5 +2,4 @@
 .vscode/*
 cmake-build-debug/*
 *.dSYM
-src/build/*
-**/build/*
+**/build/
