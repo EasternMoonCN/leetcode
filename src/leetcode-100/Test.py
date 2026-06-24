@@ -1,28 +1,24 @@
+from functools import cache
 from typing import List
-
 class Solution:
-    # 9, 8, 8 +5(13)-1-2-1-1-2
-    def trap(self, height: List[int]) -> int:
-        n = len(height)
-        i, j = 0, n - 1
-        cur_height, ans = 0, 0
-        while i <= j:
-            if cur_height - min(height[i], height[j]) < 0:
-                ans += (max(height[i], height[j]) - cur_height) * (j - i - 1)
-                print(ans)
-            if height[i] < height[j]:
-                if i != 0:
-                    ans -= (height[i] - cur_height)
-                    print(ans)
-                cur_height = max(cur_height, height[i])
-                i += 1
-            else:
-                if j != n - 1:
-                    ans -= (cur_height - height[j])
-                    print(ans)
-                cur_height = max(cur_height, height[j])
-                j -= 1
-        return ans
-
+    # 如何进行分割：1. 不同字符必须分割，2.连续字符可分可不分
+    def countTexts(self, pressedKeys: str) -> int:
+        n = len(pressedKeys)
+        mod = 1000000007
+        # 长度为i字符的分割次数
+        @cache
+        def dfs(i: int, j: int, path: str)-> int:
+            if i == 0:
+                print(path + "," + pressedKeys[i: j + 1])
+                return 1
+            # 分
+            r = dfs(i - 1, i - 1, path +  "," + pressedKeys[i: j + 1])
+            # 不分
+            # 检查是否可不分
+            if i > 0 and pressedKeys[i - 1] == pressedKeys[j]:
+                r += dfs(i - 1, j, path)
+            return r
+        return dfs(n - 1, n - 1, "") % mod
 if __name__ == '__main__':
-    solution = Solution().trap([0,1,0,2,1,0,1,3,2,1,2,1])
+    pressedKeys = "22233"
+    print(Solution().countTexts(pressedKeys))
